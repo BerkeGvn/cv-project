@@ -1,25 +1,24 @@
+import React from 'react';
+import './scss/main.scss';
+import GeneralSection from './components/GeneralSection';
+import Contact from './components/Contact';
+import InfoSection from './components/InfoSection';
 
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => (
+  <div className="paper">
+    <div className="general-section">
+      <GeneralSection />
+      <Contact />
     </div>
-  );
-}
+    <div className="info-experience-section">
+      <div className="info-section">
+        <InfoSection />
+      </div>
+      <div className="experience-section">
+        <p>gess</p>
+      </div>
+    </div>
+  </div>
+);
 
 export default App;

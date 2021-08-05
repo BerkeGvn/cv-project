@@ -1,0 +1,93 @@
+.info-section {
+  background-color: var(--main-color);
+  flex: 0 0 35%;
+  font-size: 2rem;
+  padding: 0 2rem 2rem 4rem;
+
+  &-element {
+    position: relative;
+    padding-top: 2rem;
+    margin-bottom: 4rem;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 90%;
+      background-color: var(--line-color);
+    }
+    &-header {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &-summary-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-textarea {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    &-btn {
+      width: 50%;
+    }
+  }
+
+  &-language-section {
+    position: relative;
+  }
+
+  &-btn {
+    position: absolute;
+    width: 8rem;
+    bottom: -3.4rem;
+    left: 0;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+  &:hover &-btn {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  &-list {
+    display: block;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    position: relative;
+    &-text {
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 0;
+        background-color: var(--line-color);
+        transition: all 0.5s;
+      }
+      &:hover {
+        &::before {
+          width: 70%;
+        }
+      }
+    }
+    &-input {
+      font-size: 2rem;
+      width: 20rem;
+      margin-bottom: 0.2rem;
+    }
+    &-buttons {
+      display: flex;
+      width: 20rem;
+      justify-content: space-between;
+      &-btn {
+        font-size: 1.5rem;
+
+        width: 40%;
+      }
+    }
+  }
+}

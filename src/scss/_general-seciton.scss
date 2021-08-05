@@ -1,0 +1,95 @@
+.general-section {
+  background-color: var(--main-color);
+  display: flex;
+  font-size: 2rem;
+  padding: 4rem;
+  word-break: break-all;
+}
+.titles {
+  width: 65%;
+  border-right: 2px solid var(--line-color);
+  &-header {
+    font-size: 7rem;
+    font-weight: 500;
+    &-name {
+      margin-bottom: -1rem;
+    }
+    &-input {
+      font-size: 7rem;
+      width: 80%;
+    }
+  }
+  &-h2 {
+    font-size: 2rem;
+    &-input {
+      font-size: 2rem;
+    }
+  }
+}
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  margin-left: 1rem;
+  &-el {
+    display: flex;
+    align-items: center;
+  }
+  &-text {
+    margin-left: 1rem;
+  }
+  &-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    &-label {
+      display: block;
+      margin-bottom: 2rem;
+    }
+    &-input {
+      font-size: 2rem;
+    }
+    &-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      align-self: center;
+    }
+  }
+  &::before {
+    content: "";
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background-color: var(--line-color);
+    transition: all 0.5s;
+  }
+  &::after {
+    content: "";
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background-color: var(--line-color);
+    transition: all 0.5s;
+  }
+  &:hover {
+    cursor: pointer;
+    &::before {
+      width: 100%;
+    }
+    &::after {
+      width: 100%;
+    }
+  }
+}
+.icon {
+  font-size: 2rem !important;
+}
