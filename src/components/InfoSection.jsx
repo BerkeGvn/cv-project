@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/sort-comp */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/no-array-index-key */
@@ -196,6 +197,9 @@ class InfoSection extends Component {
         val.edit = false;
       }
     });
+    if (newSection.newItem) {
+      newSection.newItem = false;
+    }
     this.setState({
       [section]: newSection,
     });
@@ -227,9 +231,9 @@ class InfoSection extends Component {
             editItem={this.editListItem}
             deleteItem={this.deleteListItem}
             editItemValue={this.editItemValue}
-            submitItem={this.submitItem}
+            addNewItem={this.addNewItem}
+            getNewItem={this.getNewItem}
           />
-          <NewItems infoList={language} addNewItem={this.addNewItem} getNewItem={this.getNewItem} />
         </div>
 
         <div className="info-section-element">
@@ -240,9 +244,10 @@ class InfoSection extends Component {
             editItem={this.editListItem}
             deleteItem={this.deleteListItem}
             editItemValue={this.editItemValue}
-            submitItem={this.submitItem}
+            addNewItem={this.addNewItem}
+            getNewItem={this.getNewItem}
           />
-          <NewItems infoList={interest} addNewItem={this.addNewItem} getNewItem={this.getNewItem} />
+
         </div>
 
       </div>
@@ -286,7 +291,8 @@ Summary.propTypes = {
 };
 
 const ListItems = ({
-  infoList, editItem, deleteItem, returnValue, editItemValue, submitItem,
+  infoList, editItem, deleteItem, returnValue, editItemValue, addNewItem,
+  getNewItem,
 }) => {
   const ref = useRef();
 
@@ -294,11 +300,12 @@ const ListItems = ({
     returnValue(infoList);
   });
   pressEnter(() => {
-    returnValue(infoList);
+    infoList.newItem ? addNewItem(infoList) : returnValue(infoList);
   });
   return (
-    <ul ref={ref}>
-      {
+    <div ref={ref}>
+      <ul>
+        {
     infoList.itemList.map((val, i) => (
       <li className="info-section-list" onClick={() => { editItem(i, infoList); }} key={i}>
         {
@@ -309,7 +316,6 @@ const ListItems = ({
             id={i}
             returnValue={returnValue}
             editItemValue={editItemValue}
-            submitItem={submitItem}
           />
         )
           : (
@@ -323,7 +329,10 @@ const ListItems = ({
       </li>
     ))
     }
-    </ul>
+      </ul>
+      <NewItems infoList={infoList} addNewItem={addNewItem} getNewItem={getNewItem} />
+    </div>
+
   );
 };
 ListItems.propTypes = {
@@ -332,7 +341,8 @@ ListItems.propTypes = {
   returnValue: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
   editItemValue: PropTypes.func.isRequired,
-  submitItem: PropTypes.func.isRequired,
+  addNewItem: PropTypes.func.isRequired,
+  getNewItem: PropTypes.func.isRequired,
 };
 
 const TextInput = ({
