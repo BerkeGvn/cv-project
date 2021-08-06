@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component, useRef } from 'react';
 import PropTypes from 'prop-types';
-import OutsideClick from '../helper';
+import { OutsideClick, pressEnter } from '../helper';
 
 class InfoSection extends Component {
   constructor(props) {
@@ -42,7 +42,6 @@ class InfoSection extends Component {
     this.deleteListItem = this.deleteListItem.bind(this);
     this.returnListValue = this.returnListValue.bind(this);
     this.editItemValue = this.editItemValue.bind(this);
-    this.submitItem = this.submitItem.bind(this);
     this.addNewItem = this.addNewItem.bind(this);
     this.getNewItem = this.getNewItem.bind(this);
   }
@@ -75,94 +74,74 @@ class InfoSection extends Component {
     this.setState({ summary });
   }
 
-  addNewItem() {
-    const { language } = this.state;
-    const { newItem } = language;
-    const { details } = language;
-    const { itemList } = language;
+  addNewItem(section) {
+    const newSection = section;
+    const { newItem, details, itemList } = newSection;
     if (newItem === false) {
-      this.setState((prevState) => ({
-        language: {
-          ...prevState.language,
-          newItem: true,
-        },
-      }));
+      newSection.newItem = true;
+      this.setState({
+        [section]: newSection,
+      });
     } else {
       if (!details.value) {
-        this.setState((prevState) => ({
-          language: {
-            ...prevState.language,
-            newItem: false,
-          },
-        }));
+        newSection.newItem = false;
+        this.setState({
+          [section]: newSection,
+        });
         return;
       }
 
-      let list = itemList.map((i) => ({ ...i }));
-      list = list.concat(details);
+      newSection.itemList = itemList.map((i) => ({ ...i }));
+      newSection.itemList = newSection.itemList.concat(details);
+      newSection.details = { ...section.details };
+      newSection.newItem = false;
+      newSection.details.value = '';
 
       this.setState({
-        language: {
-          newItem: false,
-          details: {
-            value: '',
-            edit: false,
-          },
-          itemList: list,
-        },
+        [section]: newSection,
       });
     }
   }
 
-  getNewItem(e) {
+  getNewItem(e, section) {
     const newValue = e.target.value;
+    const newSection = section;
+    newSection.details.value = newValue;
+    newSection.details.edit = false;
 
+    this.setState({
+      [section]: newSection,
+    });
+  }
+
+  editItemValue(e, id, section) {
+    const newValue = e.target.value;
+    const newSection = section;
+    const { itemList } = newSection;
+
+    newSection.itemList = itemList.map((i) => ({ ...i }));
+
+    newSection.itemList[id].value = newValue;
     this.setState((prevState) => ({
-      language: {
-        ...prevState.language,
-        details: {
-          value: newValue,
-          edit: false,
-        },
-      },
+      [section]: prevState[section],
+
+    }), () => this.setState({
+      [section]: newSection,
     }));
   }
 
-  editItemValue(e, id) {
-    const newValue = e.target.value;
-    const { language } = this.state;
-    const { details } = language;
-    const { itemList } = language;
+  deleteListItem(id, section) {
+    const newSection = section;
+    const { itemList } = newSection;
 
-    const list = itemList.map((i) => ({ ...i }));
-
-    list[id].value = newValue;
-    this.setState((prevState) => ({
-      language: prevState.language,
-
-    }), () => this.setState({
-      language: {
-        details,
-        itemList: list,
-      },
-    }));
-  }
-
-  deleteListItem(id) {
-    const { language } = this.state;
-    const { details } = language;
-    const { itemList } = language;
-    const list = itemList.map((i) => ({ ...i }));
-    list.splice(id, 1);
+    newSection.itemList = itemList.map((i) => ({ ...i }));
+    newSection.itemList.splice(id, 1);
 
     this.setState((prevState) => ({
-      language: prevState.language,
+      [section]: prevState[section],
 
     }), () => this.setState({
-      language: {
-        details,
-        itemList: list,
-      },
+      [section]: newSection,
     }));
   }
 
@@ -180,57 +159,51 @@ class InfoSection extends Component {
         val.edit = false;
       }
     });
+    if (newSection.itemList[id]) {
+      newSection.itemList[id].edit = true;
+    }
 
-    newSection.itemList[id].edit = true;
-    console.log(section);
     this.setState({
       [section]: newSection,
     });
   }
 
-  submitItem(id) {
-    const { language } = this.state;
-    const { details } = language;
-    const { itemList } = language;
-    const list = itemList.map((i) => ({ ...i }));
-    list[id].edit = false;
+  /// //////////////////////////////////
+  /*   submitItem(id, section) {
+    const newSection = section;
+    const { itemList } = newSection;
+
+    newSection.itemList = itemList.map((i) => ({ ...i }));
+    newSection.itemList[id].edit = false;
+
     this.setState((prevState) => ({
-      language: prevState.language,
+      [section]: prevState[section],
 
     }), () => this.setState({
-      language: {
-        details,
-        itemList: list,
-      },
+      [section]: newSection,
     }));
+    console.log(newSection);
   }
+ */
+  /// ///////////////////////////////
 
-  returnListValue() {
-    const { language } = this.state;
-    const { itemList } = language;
-
-    const list = itemList.map((i) => ({ ...i }));
-
-    list.forEach((val) => {
+  returnListValue(section) {
+    const newSection = section;
+    const { itemList } = newSection;
+    newSection.itemList = itemList.map((i) => ({ ...i }));
+    newSection.itemList.forEach((val) => {
       if (val.edit === true) {
         val.edit = false;
       }
     });
-
-    this.setState((prevState) => ({
-      language: {
-        ...prevState.language,
-        itemList: list,
-      },
-    }));
+    this.setState({
+      [section]: newSection,
+    });
   }
 
   render() {
     const { summary, language, interest } = this.state;
     const { text, edit } = summary;
-    const { newItem, itemList } = language;
-    /*     const InterestsItems = interest.itemList; */
-
     return (
       <div>
         <div className="info-section-element">
@@ -250,19 +223,26 @@ class InfoSection extends Component {
           <h3 className="info-section-element-header">Languages</h3>
           <ListItems
             returnValue={this.returnListValue}
-            language={language}
+            infoList={language}
             editItem={this.editListItem}
             deleteItem={this.deleteListItem}
             editItemValue={this.editItemValue}
             submitItem={this.submitItem}
           />
-          {newItem ? <input onChange={(e) => this.getNewItem(e)} className="info-section-list-input" type="text" /> : null}
-          <button onClick={this.addNewItem} type="button" className="button info-section-btn">Add</button>
+          <NewItems infoList={language} addNewItem={this.addNewItem} getNewItem={this.getNewItem} />
         </div>
 
         <div className="info-section-element">
           <h3 className="info-section-element-header">Interests</h3>
-          <InterestsList interests={interest} editItem={this.editListItem} />
+          <ListItems
+            returnValue={this.returnListValue}
+            infoList={interest}
+            editItem={this.editListItem}
+            deleteItem={this.deleteListItem}
+            editItemValue={this.editItemValue}
+            submitItem={this.submitItem}
+          />
+          <NewItems infoList={interest} addNewItem={this.addNewItem} getNewItem={this.getNewItem} />
         </div>
 
       </div>
@@ -270,26 +250,17 @@ class InfoSection extends Component {
   }
 }
 
-const InterestsList = ({ interests, editItem }) => (
-  <ul>
-    {
-    interests.itemList.map((val, i) => (
-      <li className="info-section-list" onClick={() => { editItem(i, interests); }} key={i}>
-        {
-        val.edit ? <p>hekki</p> : (
-          <p className="info-section-list-text" id={i}>
-            -
-            {' '}
-            {val.value}
-          </p>
-        )
-      }
-
-      </li>
-    ))
-    }
-  </ul>
+const NewItems = ({ infoList, addNewItem, getNewItem }) => (
+  <div>
+    {infoList.newItem ? <input onChange={(e) => getNewItem(e, infoList)} className="info-section-list-input" type="text" /> : null}
+    <button onClick={() => addNewItem(infoList)} type="button" className="button info-section-btn">Add</button>
+  </div>
 );
+NewItems.propTypes = {
+  infoList: PropTypes.object.isRequired,
+  addNewItem: PropTypes.func.isRequired,
+  getNewItem: PropTypes.func.isRequired,
+};
 
 const Summary = ({
   summary, newText, clickOutside, submit,
@@ -315,22 +286,25 @@ Summary.propTypes = {
 };
 
 const ListItems = ({
-  language, editItem, deleteItem, returnValue, editItemValue, submitItem,
+  infoList, editItem, deleteItem, returnValue, editItemValue, submitItem,
 }) => {
   const ref = useRef();
 
   OutsideClick(ref, () => {
-    returnValue();
+    returnValue(infoList);
+  });
+  pressEnter(() => {
+    returnValue(infoList);
   });
   return (
     <ul ref={ref}>
       {
-    language.itemList.map((val, i) => (
-      <li className="info-section-list" onClick={() => { editItem(i, language); }} key={i}>
+    infoList.itemList.map((val, i) => (
+      <li className="info-section-list" onClick={() => { editItem(i, infoList); }} key={i}>
         {
         val.edit ? (
           <TextInput
-            language={language}
+            infoList={infoList}
             deleteItem={deleteItem}
             id={i}
             returnValue={returnValue}
@@ -353,7 +327,7 @@ const ListItems = ({
   );
 };
 ListItems.propTypes = {
-  language: PropTypes.object.isRequired,
+  infoList: PropTypes.object.isRequired,
   editItem: PropTypes.func.isRequired,
   returnValue: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
@@ -362,24 +336,21 @@ ListItems.propTypes = {
 };
 
 const TextInput = ({
-  id, deleteItem, language, editItemValue, submitItem,
+  id, deleteItem, infoList, editItemValue,
 }) => (
   <label htmlFor=" ">
-    <input onChange={(e) => editItemValue(e, id)} value={language.itemList[id].value} className="info-section-list-input" type="text" />
+    <input onChange={(e) => editItemValue(e, id, infoList)} value={infoList.itemList[id].value} className="info-section-list-input" type="text" />
     <div className="info-section-list-buttons">
       {' '}
-      <button onClick={() => deleteItem(id)} className="button info-section-list-buttons-btn" type="submit">Delete</button>
-      <button onClick={() => submitItem(id)} className="button info-section-list-buttons-btn" type="submit">Edit</button>
-
+      <button onClick={() => deleteItem(id, infoList)} className="button info-section-list-buttons-btn" type="submit">Delete</button>
     </div>
 
   </label>
 );
 TextInput.propTypes = {
   id: PropTypes.number.isRequired,
-  language: PropTypes.array.isRequired,
+  infoList: PropTypes.object.isRequired,
   deleteItem: PropTypes.func.isRequired,
   editItemValue: PropTypes.func.isRequired,
-  submitItem: PropTypes.func.isRequired,
 };
 export default InfoSection;

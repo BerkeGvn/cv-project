@@ -4,7 +4,9 @@ function OutsideClick(ref, callback) {
   useEffect(() => {
     const handleClickOutside = (evt) => {
       if (ref.current && !ref.current.contains(evt.target)) {
-        callback(); // Do what you want to handle in the callback
+        callback();
+      } else if (evt.code === 'Enter' || evt.code === 'NumpadEnter') {
+        callback();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -14,4 +16,18 @@ function OutsideClick(ref, callback) {
   });
 }
 
-export default OutsideClick;
+function pressEnter(callback) {
+  useEffect(() => {
+    const handleClickOutside = (evt) => {
+      if (evt.code === 'Enter' || evt.code === 'NumpadEnter') {
+        callback();
+      }
+    };
+    document.addEventListener('keydown', handleClickOutside);
+    return (() => {
+      document.removeEventListener('keydown', handleClickOutside);
+    });
+  });
+}
+
+export { OutsideClick, pressEnter };

@@ -8,7 +8,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import HomeIcon from '@material-ui/icons/Home';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import PropTypes from 'prop-types';
-import OutsideClick from '../helper';
+import { OutsideClick } from '../helper';
 
 class Contact extends Component {
   constructor(props) {

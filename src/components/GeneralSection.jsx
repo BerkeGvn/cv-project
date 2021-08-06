@@ -63,7 +63,6 @@ class GeneralSection extends Component {
   }
 
   makeEdit(section) {
-    console.log(section);
     const newSection = section;
     newSection.edit = true;
     this.setState({
