@@ -55,6 +55,9 @@
     left: 0;
     opacity: 0;
     transition: all 0.5s;
+    @media (hover: none) {
+      opacity: 1;
+    }
   }
   &:hover &-btn {
     opacity: 1;
@@ -87,6 +90,7 @@
       font-size: 2rem;
       width: 20rem;
       margin-bottom: 0.2rem;
+      border: none;
     }
     &-buttons {
       display: flex;

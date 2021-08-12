@@ -20,6 +20,9 @@
     bottom: -2.5rem;
     opacity: 0;
     transition: all 0.5s;
+    @media (hover: none) {
+      opacity: 1;
+    }
   }
   &-delete-btn {
     font-size: 1.5rem;
@@ -28,6 +31,8 @@
   &-input {
     font-size: 2rem;
     width: 80%;
+    border: none;
+    border-bottom: 2px solid black;
   }
   &:hover &-add-btn {
     opacity: 1;

@@ -11,7 +11,7 @@ const App = () => {
   const componentRef = useRef();
 
   return (
-    <div>
+    <div className="App">
       <ReactToPrint
         trigger={() => <button className="print-button button" type="button">PDF / Print</button>}
         content={() => componentRef.current}
