@@ -1,10 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/sort-comp */
-/* eslint-disable no-param-reassign */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Component, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { OutsideClick, pressEnter } from '../helper';
@@ -69,7 +62,9 @@ class InfoSection extends Component {
   }
 
   submitSummary(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const { summary } = this.state;
     summary.edit = false;
     this.setState({ summary });
@@ -169,25 +164,6 @@ class InfoSection extends Component {
     });
   }
 
-  /// //////////////////////////////////
-  /*   submitItem(id, section) {
-    const newSection = section;
-    const { itemList } = newSection;
-
-    newSection.itemList = itemList.map((i) => ({ ...i }));
-    newSection.itemList[id].edit = false;
-
-    this.setState((prevState) => ({
-      [section]: prevState[section],
-
-    }), () => this.setState({
-      [section]: newSection,
-    }));
-    console.log(newSection);
-  }
- */
-  /// ///////////////////////////////
-
   returnListValue(section) {
     const newSection = section;
     const { itemList } = newSection;
@@ -209,7 +185,7 @@ class InfoSection extends Component {
     const { summary, language, interest } = this.state;
     const { text, edit } = summary;
     return (
-      <div>
+      <div className="info-section-divs">
         <div className="info-section-element">
           <h3 className="info-section-element-header">Summary</h3>
           {edit ? (
@@ -275,9 +251,12 @@ const Summary = ({
   OutsideClick(ref, () => {
     clickOutside(summary);
   });
+  pressEnter(() => {
+    submit();
+  });
   return (
     <form className="info-section-summary-form" ref={ref} onSubmit={submit} action="">
-      <textarea className="info-section-summary-form-textarea" onChange={newText} name="" id="123" cols="20" rows="10" />
+      <textarea className="info-section-summary-form-textarea" value={summary.text} onChange={newText} name="" id="123" cols="18" rows="10" />
       <button className="info-section-summary-form-btn button" type="submit">Submit</button>
     </form>
 

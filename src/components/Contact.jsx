@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/forbid-prop-types */
 import React, { Component, useRef } from 'react';
 import PhoneIcon from '@material-ui/icons/Phone';
 import MailIcon from '@material-ui/icons/Mail';
@@ -16,9 +13,9 @@ class Contact extends Component {
     this.state = {
       info: {
         number: '000-000-00-00',
-        email: 'berkegvn@gmail.com',
+        email: 'email@gmail.com',
         site: 'www.github.com',
-        adress: '865 Pheasant Court Superior, WI 54880',
+        adress: '123 Waterfall Jungle, WI 54880',
       },
       edit: false,
     };
@@ -52,7 +49,7 @@ class Contact extends Component {
     const { info } = this.state;
     const { edit } = this.state;
     return (
-      <div>
+      <div className="contact-info-main-div">
         {edit ? (
           <ContactForm
             clickOutside={this.clickOutside}

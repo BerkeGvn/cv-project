@@ -1,4 +1,98 @@
 .experience-section {
   flex: 1;
   font-size: 2rem;
+  padding: 1rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &-divs {
+    height: 100%;
+  }
+  &-header {
+    font-size: 3.5rem;
+    border-bottom: 2px solid var(--line-color);
+  }
+  &-div {
+    position: relative;
+    margin-bottom: 5rem;
+  }
+
+  &-btn {
+    position: absolute;
+    right: 0;
+    bottom: -4rem;
+    width: 10rem;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+  &-work {
+    &:hover &-btn {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+  &-education {
+    &:hover &-btn {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+}
+
+.experience-summary {
+  &-form {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    box-shadow: 0px 2px 4px black;
+    background: var(--main-color);
+    &-label {
+      margin-bottom: 2rem;
+    }
+    &-date {
+      text-align: center;
+      &-dt {
+        border-radius: 2px;
+        border: none;
+        padding: 0.5rem;
+        &:not(:last-child) {
+          margin-right: 2rem;
+        }
+      }
+    }
+    &-text {
+      font-weight: 500;
+    }
+    &-input {
+      width: 100%;
+      font-size: 2rem;
+      border-radius: 2px;
+      border: none;
+      padding: 0.5rem;
+    }
+    &-buttons {
+      display: flex;
+      justify-content: space-around;
+    }
+    &-btn {
+      border: none;
+      width: 20%;
+    }
+  }
+  &-title {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-header {
+      font-size: 3rem;
+      font-weight: 500;
+    }
+  }
+  &-position {
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
 }

@@ -1,0 +1,36 @@
+.skills-section {
+  position: relative;
+  &-ul {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 16rem;
+    overflow: hidden;
+  }
+  &-list {
+    list-style-type: none;
+    margin-bottom: 2rem;
+    width: 40%;
+  }
+  &-add-btn {
+    position: absolute;
+    width: 10rem;
+    right: 0;
+    bottom: -2.5rem;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+  &-delete-btn {
+    font-size: 1.5rem;
+    width: 40%;
+  }
+  &-input {
+    font-size: 2rem;
+    width: 80%;
+  }
+  &:hover &-add-btn {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
